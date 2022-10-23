@@ -159,6 +159,7 @@ return [
         'attached_file_path'=>'添付ファイル',
         'start_date'=>'開始日',
         'end_date'=>'終了日',
+        'password'=>'パスワード',
     ],
 
 ];

@@ -39,11 +39,14 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <p>タスクの内容：{{$task->content}}</p>
-                    <p> タスクのステータス：{{config("task.task_status." . $task->status)}} </p>
-                    <p> {{isset($task->attached_file_path)? "添付ファイル名：" . $task->attached_file_path : '添付ファイルなし'}}</p>
-                    <p> 開始日：{{$task->start_date}} </p>
-                    <p> 終了日：{{$task->end_date}} </p>
+                    <ul>
+                        <li>タスクの内容</li>
+                        <p>{!! nl2br(e($task->content)) !!}</p>
+                        <li>タスクのステータス：{{config("task.task_status." . $task->status)}} </li>
+                        <li>{{isset($task->attached_file_path)? "添付ファイル名：" . $task->attached_file_path : '添付ファイルなし'}}</li>
+                        <li>開始日：{{$task->start_date}} </li>
+                        <li>終了日：{{$task->end_date}} </li>
+                    </ul>
                 </div>
             </div>
         </div>

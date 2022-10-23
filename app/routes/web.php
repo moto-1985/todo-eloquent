@@ -18,16 +18,29 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
+// 教わったこと
+Auth::routes([
+    'register' => true,
+    'reset' => false,
+    'confirm' => true,
+    'verify' => true,
+]);
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-// Route::get('/tasks', [TaskController::class, 'index'])->name('tasks.index');
-Route::get('/tasks/create', [TaskController::class, 'create'])->name('tasks.create');
-Route::post('/tasks', [TaskController::class, 'store'])->name('tasks.store');
-Route::get('/tasks/{task}', [TaskController::class, 'show'])->name('tasks.show');
-Route::get('/tasks/{task}/edit', [TaskController::class, 'edit'])->name('tasks.edit');
-Route::put('/tasks/{task}', [TaskController::class, 'update'])->name('tasks.update');
-Route::delete('/tasks/{task}', [TaskController::class, 'destroy'])->name('tasks.destroy');
-
-Route::get('/bookmarks', [TaskController::class, 'listBookmark'])->name('tasks.bookmark');
-Route::put('/bookmarks/{task}', [TaskController::class, 'updateBookmark'])->name('tasks.updateBookmark');
+// 教わったこと
+// bookmarksとかtasks複数にする → 一覧で出るから複数 {$id}をつければそのうちの一個だとURLからわかる。
+// resourceは無駄なルートが増える しかもrouteを見ただけだと何を使っているかわからない
+// /task などprefixが一緒でgroupingする機能がある。
+Route::middleware(['auth'])->group(function () {
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    // Route::get('/tasks', [TaskController::class, 'index'])->name('tasks.index');
+    Route::prefix('tasks')->name('tasks.')->group(function () {
+        Route::get('/create', [TaskController::class, 'create'])->name('create');
+        Route::post('', [TaskController::class, 'store'])->name('store');
+        Route::get('/{task}', [TaskController::class, 'show'])->name('show');
+        Route::get('/{task}/edit', [TaskController::class, 'edit'])->name('edit');
+        Route::put('/{task}', [TaskController::class, 'update'])->name('update');
+        Route::delete('/{task}', [TaskController::class, 'destroy'])->name('destroy');
+    });
+    Route::get('/bookmarks', [TaskController::class, 'listBookmark'])->name('tasks.bookmark');
+    Route::put('/bookmarks/{task}', [TaskController::class, 'updateBookmark'])->name('tasks.updateBookmark');
+});

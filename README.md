@@ -97,3 +97,15 @@ php artisan make:controller BookmarkController --resource
 task_usersテーブル
 php artisan make:model TaskUser -m
 php artisan migrate:rollback --step=1
+
+
+#### デプロイの時にやったこと
+composer install
+apt-get update
+apt-get install vim
+vi .env
+php artisan migrate
+chmod 777 storage/ -R // 質問これやっていいの
+vi AppServiceProvider.php // 質問https://zakkuri.life/laravel-chrome-security/ これやらないと注意でる
+php artisan storage:link
+質問 stacktraceの表示されてるエラー画面でる　これはそれでいいのか？
